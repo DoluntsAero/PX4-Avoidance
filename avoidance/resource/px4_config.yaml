@@ -43,8 +43,11 @@ cmd:
 
 # global_position
 global_position:
-  frame_id: "fcu"           # pose and fix frame_id
+  frame_id: "map"             # origin frame
+  child_frame_id: "local_origin" # body-fixed frame
   rot_covariance: 99999.0   # covariance for attitude?
+  gps_uere: 1.0             # User Equivalent Range Error (UERE) of GPS sensor (m)
+  use_relative_alt: true    # use relative altitude for local coordinates
   tf:
     send: false               # send TF?
     frame_id: "local_origin"  # TF frame_id
@@ -61,7 +64,8 @@ imu:
 
 # local_position
 local_position:
-  frame_id: "local_origin"
+  frame_id: "map"
+  child_frame_id: "odom"
   tf:
     send: true
     frame_id: "local_origin"
@@ -141,9 +145,7 @@ distance_sensor:
 #    Check http://wiki.ros.org/mavros/Enumerations
 ##
 
-# image_pub
-image:
-  frame_id: "px4flow"
+
 
 # mocap_pose_estimate
 mocap:
@@ -156,7 +158,7 @@ mocap:
 odometry:
   fcu:
     odom_parent_id_des: "map"    # desired parent frame rotation of the FCU's odometry
-    odom_child_id_des: "base_link"    # desired child frame rotation of the FCU's odometry
+    odom_child_id_des: "odom"    # desired child frame rotation of the FCU's odometry
 
 # px4flow
 px4flow:
